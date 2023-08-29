@@ -46,7 +46,11 @@ export default async function Home() {
                 <Typography variant="body1" color="#42AF59">
                   {Categories[0]?.category?.name} {formatTime(published_at)}
                 </Typography>
-                <Link href={`/article/${id}`}>
+                <Link
+                  href={`/article/${id}?category_id=${
+                    Categories && Categories[0]?.category_id
+                  }`}
+                >
                   <Typography variant="h6" fontWeight={600}>
                     {title}
                   </Typography>
