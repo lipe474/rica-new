@@ -12,7 +12,7 @@ export default async function Home() {
   const [article, category] = await Promise.all([
     getArticle(),
     getCategories()
-  ])
+  ]);
 
   return (
     <Box maxWidth={"1400px"} margin={"0 auto"} p={2} mt={3}>
@@ -40,29 +40,27 @@ export default async function Home() {
                 flexDirection="column"
                 component="div"
                 m="35px 0px"
-
                 gap={2}
               >
                 <Line />
-                <Typography variant="body1" color="#42AF59"  >
+                <Typography variant="body1" color="#42AF59">
                   {Categories[0]?.category?.name} {formatTime(published_at)}
                 </Typography>
                 <Link href={`/article/${id}`}>
-                  <Typography variant="h6" fontWeight={600} >
+                  <Typography variant="h6" fontWeight={600}>
                     {title}
                   </Typography>
                 </Link>
                 <Typography
                   variant="body1"
-
                   sx={{
-                    display: '-webkit-box',
+                    display: "-webkit-box",
                     WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                     m: 0,
-                    p: 0,
+                    p: 0
                   }}
                 >
                   {resume}
@@ -81,75 +79,54 @@ export default async function Home() {
               Categories={article[article.length - 1].Categories}
             />
           )}
-
-          <Line />
         </Grid>
 
-
-        <Grid item md={4} lg={4}
+        <Grid
+          item
+          md={4}
+          lg={4}
           sx={{
-            display: { xs: 'none', md: 'block' },
+            display: { xs: "none", md: "block" }
           }}
         >
-
           <Line color="#000000" />
-          <Box component="div" >
+          <Box component="div">
             <Typography
               component="div"
               fontFamily="'Poppins', sans-serif"
               sx={{
-                fontWeight: '600',
-                fontSize: '18px',
-                lineHeight: '2',
-                background: 'transparent',
-                verticalAlign: 'baseline',
-                m: '1rem 0 1rem 0',
+                fontWeight: "600",
+                fontSize: "18px",
+                lineHeight: "2",
+                background: "transparent",
+                verticalAlign: "baseline",
+                m: "1rem 0 1rem 0"
               }}
             >
-              Assine para receber  conteúdos da RICA
+              Assine para receber conteúdos da RICA
             </Typography>
-            <Box
-              pb={6}
-              flexDirection={'column'}
-            >
-              <Typography
-                mt={2}
-                textAlign={'left'}
-                mb={2}
-                
-                fontSize={'.89rem'}
-
-              >
-
+            <Box pb={6} flexDirection={"column"}>
+              <Typography mt={2} textAlign={"left"} mb={2} fontSize={".89rem"}>
                 Coloque seu e-mail para se manter atualizado
               </Typography>
               <Stack gap={2} flexDirection={"row"}>
-
-                <TextField
-
-                  fullWidth
-                  size="small"
-                  type={'email'}
-                  required
-                />
-
+                <TextField fullWidth size="small" type={"email"} required />
 
                 <Button
                   variant="contained"
                   size="medium"
                   color="success"
-                  type='submit'
+                  type="submit"
                 >
                   Assinar
                 </Button>
-
               </Stack>
             </Box>
           </Box>
           <CategoriasList categories={category} />
           <ListParticipants />
         </Grid>
-      </ Grid>
-    </Box >
-  )
+      </Grid>
+    </Box>
+  );
 }
