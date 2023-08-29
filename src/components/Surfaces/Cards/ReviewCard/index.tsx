@@ -47,7 +47,23 @@ export default function ReviewCard({
             color="#e2e8f0"
             fontSize={"1rem"}
           >
-            <Image src={prominentImage} alt="rica" width={50} height={61} />
+            <Box
+              component={Image}
+              src={prominentImage}
+              alt="rica"
+              sx={{
+                width: {
+                  xs: "35px",
+                  sm: "50px",
+                  md: "50px"
+                },
+                height: {
+                  xs: "46px",
+                  sm: "61px",
+                  md: "61px"
+                }
+              }}
+            />
             <Box display="flex" gap={2}>
               <Typography
                 component="div"
