@@ -154,7 +154,7 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
                 <Box
                     marginTop={'-190px'}
                     contentEditable={false}
-                    dangerouslySetInnerHTML={{ __html: article?.pdf }}
+                    dangerouslySetInnerHTML={{ __html: article?.rich_text }}
                 />
 
             </Container>
