@@ -8,13 +8,26 @@ const FloatingButton = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / totalHeight) * 100;
+    let progressTimeout: ReturnType<typeof setTimeout>;
+    let isScrolling = false;
 
-      setScrollProgress(progress);
+    const handleScroll = () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        clearTimeout(progressTimeout);
+
+        progressTimeout = setTimeout(() => {
+          const scrollTop =
+            window.scrollY || document.documentElement.scrollTop;
+          const totalHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const progress = (scrollTop / totalHeight) * 100;
+          setScrollProgress(progress);
+          isScrolling = false;
+        }, 100);
+      }
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
       if (scrollTop > 0) {
         setShowButton(true);
@@ -27,6 +40,7 @@ const FloatingButton = () => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      clearTimeout(progressTimeout);
     };
   }, []);
 
