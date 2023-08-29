@@ -1,14 +1,20 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import UpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab } from '@mui/material';
+"use client";
+import React, { useState, useEffect } from "react";
+import UpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Fab, CircularProgress } from "@mui/material";
 
 const FloatingButton = () => {
   const [showButton, setShowButton] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / totalHeight) * 100;
+
+      setScrollProgress(progress);
 
       if (scrollTop > 0) {
         setShowButton(true);
@@ -17,17 +23,17 @@ const FloatingButton = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleButtonClick = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth"
     });
   };
 
@@ -36,27 +42,35 @@ const FloatingButton = () => {
       {showButton && (
         <Fab
           sx={{
-            position: 'fixed',
-            bottom: '30px',
-            right: '30px',
-            cursor: 'pointer',
-            boxShadow: 'none',
-            background: 'transparent',
-            border: '4px solid #6BD381',
+            position: "fixed",
+            bottom: "30px",
+            right: "30px",
+            cursor: "pointer",
+            boxShadow: "none",
+            background: "transparent",
             "&:hover": {
-              background: '#6BD381', 
+              background: "#6BD381"
             }
           }}
           color="success"
           aria-label="Ir para o topo"
           onClick={handleButtonClick}
         >
+          <CircularProgress
+            variant="determinate"
+            value={scrollProgress}
+            size="56px"
+            sx={{
+              color: "#6BD381",
+              position: "absolute"
+            }}
+          />
           <UpIcon
             sx={{
-              fontSize: '40px',
-              color: '#000000',
-              "&:hover": { 
-                color: '#ffffff'
+              fontSize: "40px",
+              color: "#000000",
+              "&:hover": {
+                color: "#ffffff"
               }
             }}
           />
@@ -67,4 +81,3 @@ const FloatingButton = () => {
 };
 
 export default FloatingButton;
-
