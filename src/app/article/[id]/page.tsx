@@ -45,6 +45,22 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
       ? userNames.slice(0, -1).join(", ") + " e " + userNames.slice(-1)
       : userNames?.[0];
 
+  const adjustContent = (html: string) => {
+    const adjustedHtml = html
+      .replace(/<img/g, '<img style="max-width:100%; height:auto;"')
+      .replace(
+        /<iframe.*?youtube\.com\/embed\/([^\s"']+).*?<\/iframe>/g,
+        '<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe></div>'
+      )
+      .replace(/<pre>[\s\S]*?<\/pre>/g, (match) => {
+        return `<div class="code-wrapper" style="max-width: 100%; overflow: auto; background: #e2e4e7;">${match}</div>`;
+      })
+      .replace(/<code>[\s\S]*?<\/code>/g, (match) => {
+        return `<code class="code-wrapper" style="max-width: 100%; overflow: auto; background: #e2e4e7;">${match}</code>`;
+      });
+    return adjustedHtml;
+  };
+
   return (
     <Box>
       <Box
@@ -77,7 +93,11 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
                     "&:hover": {
                       backgroundColor: "#ffffff"
                     },
-                    height: "50px",
+                    height: {
+                      xs: "30px",
+                      sm: "40px",
+                      md: "40px"
+                    },
                     fontWeight: 600,
                     textTransform: "none",
                     marginRight: "10px",
@@ -110,7 +130,19 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
                 {article?.resume}
               </Typography>
             </Box>
-            <Box display={"flex"} gap={3} width={"100%"} marginTop={"50px"}>
+            <Box
+              display={"flex"}
+              gap={3}
+              width={"100%"}
+              marginTop={"50px"}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row"
+                }
+              }}
+            >
               <Typography fontWeight={400} color="#ffffff">
                 Escrito por: {""}
                 {formattedUserNames}
@@ -132,7 +164,11 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
             display: "flex",
             justifyContent: "flex-end",
             boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-            top: "-213px",
+            top: {
+              xs: "-100px",
+              sm: "-213px",
+              md: "-213px"
+            },
             position: "relative",
             borderRadius: "5px"
           }}
@@ -140,9 +176,17 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
         />
 
         <Box
-          marginTop={"-190px"}
+          sx={{
+            marginTop: {
+              xs: "-80px",
+              sm: "-190px",
+              md: "-190px"
+            }
+          }}
           contentEditable={false}
-          dangerouslySetInnerHTML={{ __html: article?.rich_text }}
+          dangerouslySetInnerHTML={{
+            __html: adjustContent(article?.rich_text)
+          }}
         />
       </Container>
       {category ? (
