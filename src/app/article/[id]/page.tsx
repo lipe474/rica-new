@@ -20,6 +20,7 @@ import {
 import { Line } from "@/components/Line";
 import MediaCard from "@/components/Surfaces/Cards/MediaCard";
 import { Article, Category } from "@/data/@types";
+import { use } from "react";
 
 interface ArticleProps {
   params: {
@@ -37,7 +38,12 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
     getArticlesByCategory(searchParams?.category_id)
   ]);
 
-  const user = article?.UserArticles[0]?.user;
+  const userNames = article?.UserArticles.map((item: any) => item.user.name);
+
+  const formattedUserNames =
+    userNames?.length >= 2
+      ? userNames.slice(0, -1).join(", ") + " e " + userNames.slice(-1)
+      : userNames?.[0];
 
   return (
     <Box>
@@ -106,7 +112,8 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
             </Box>
             <Box display={"flex"} gap={3} width={"100%"} marginTop={"50px"}>
               <Typography fontWeight={400} color="#ffffff">
-                Escrito por: {user?.name}
+                Escrito por: {""}
+                {formattedUserNames}
               </Typography>
               <Typography fontWeight={400} color="#ffffff">
                 {formatDateAndTime(article?.published_at)}
