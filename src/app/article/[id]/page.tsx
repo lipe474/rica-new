@@ -40,15 +40,6 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
     getRelatedArticles(params?.id)
   ]);
 
-  // console.log(params.id, "id");
-  relatedArticles.forEach((category: any) => {
-    category.articles.forEach((article: any) => {
-      const { id } = article;
-      console.log(article, "articl 46");
-      console.log(id, "articl 47");
-    });
-  });
-
   const userNames = article?.UserArticles.map((item: any) => item.user.name);
 
   const formattedUserNames =
@@ -203,7 +194,7 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
           }}
         />
       </Container>
-      {category ? (
+      {relatedArticles?.length > 0 ? (
         <Box minHeight="650px" bgcolor="#0E423F">
           <Container
             sx={{
@@ -249,15 +240,18 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
               }}
               justifyContent="center"
             >
-              {/* {relatedArticles} */}
               {relatedArticles.map((category: any) =>
                 category.articles.map((article: any) => (
                   <MediaCard
-                    key={article.id}
-                    id={article.id}
-                    title={article.title}
-                    image={article.image}
-                    Categories={[{ category_id: article.category_id }]}
+                    key={article.article.id}
+                    id={article.article.id}
+                    title={article.article.title}
+                    image={article.article.image}
+                    Categories={[
+                      {
+                        category_id: article.article.Categories[0].category_id
+                      }
+                    ]}
                   />
                 ))
               )}

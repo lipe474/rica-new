@@ -35,12 +35,24 @@ export default function MediaCard({
         sx={{
           width: "100%",
           height: 350,
-          objectFit: "cover"
+          objectFit: "cover",
+          borderRadius: "5px"
         }}
         alt={title}
         src={image}
       />
-      <Typography variant="subtitle1" color={"white"} textAlign={"center"}>
+      <Typography
+        variant="subtitle1"
+        color={"white"}
+        textAlign={"center"}
+        sx={{
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: "-webkit-box",
+          WebkitLineClamp: 1,
+          WebkitBoxOrient: "vertical"
+        }}
+      >
         {title}
       </Typography>
       <Link
