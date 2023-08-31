@@ -19,8 +19,9 @@ import {
 // @ Components
 import { Line } from "@/components/Line";
 import MediaCard from "@/components/Surfaces/Cards/MediaCard";
-import { Article, Category } from "@/data/@types";
+import { Categories, Category, RelatedArticles } from "@/data/@types";
 import { use } from "react";
+import { json } from "stream/consumers";
 
 interface ArticleProps {
   params: {
@@ -33,10 +34,20 @@ interface ArticleProps {
 }
 
 const Article = async ({ params, searchParams }: ArticleProps) => {
-  const [article, category] = await Promise.all([
+  const [article, category, relatedArticles] = await Promise.all([
     getArticleById(params?.id),
-    getArticlesByCategory(searchParams?.category_id)
+    getArticlesByCategory(searchParams?.category_id),
+    getRelatedArticles(params?.id)
   ]);
+
+  // console.log(params.id, "id");
+  relatedArticles.forEach((category: any) => {
+    category.articles.forEach((article: any) => {
+      const { id } = article;
+      console.log(article, "articl 46");
+      console.log(id, "articl 47");
+    });
+  });
 
   const userNames = article?.UserArticles.map((item: any) => item.user.name);
 
@@ -154,7 +165,10 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
           </Box>
         </Container>
       </Box>
-      <Container sx={{ margin: "0 auto", minHeight: "400px" }} maxWidth="lg">
+      <Container
+        sx={{ margin: "0 auto", minHeight: "400px", marginBottom: "20px" }}
+        maxWidth="lg"
+      >
         <Box
           sx={{
             backgroundImage: `url(${article?.image})`,
@@ -217,7 +231,7 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
                   fontWeight: 600
                 }}
               >
-                {category?.name}
+                {category.name}
               </Button>
             </Box>
             <Box
@@ -235,12 +249,18 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
               }}
               justifyContent="center"
             >
-              {category?.articles?.map((item: Article) => {
-                const { id, title, image } = item;
-                return (
-                  <MediaCard key={id} id={id} title={title} image={image} />
-                );
-              })}
+              {/* {relatedArticles} */}
+              {relatedArticles.map((category: any) =>
+                category.articles.map((article: any) => (
+                  <MediaCard
+                    key={article.id}
+                    id={article.id}
+                    title={article.title}
+                    image={article.image}
+                    Categories={[{ category_id: article.category_id }]}
+                  />
+                ))
+              )}
             </Box>
           </Container>
         </Box>
