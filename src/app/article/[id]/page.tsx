@@ -247,11 +247,7 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
                     id={article.article.id}
                     title={article.article.title}
                     image={article.article.image}
-                    Categories={[
-                      {
-                        category_id: article.article.Categories[0].category_id
-                      }
-                    ]}
+                    Categories={article.article.Categories}
                   />
                 ))
               )}
