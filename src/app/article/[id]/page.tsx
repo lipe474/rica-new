@@ -194,7 +194,8 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
           }}
         />
       </Container>
-      {relatedArticles?.length > 0 ? (
+
+      {relatedArticles.totalArticles > 0 ? (
         <Box minHeight="650px" bgcolor="#0E423F">
           <Container
             sx={{
@@ -240,7 +241,7 @@ const Article = async ({ params, searchParams }: ArticleProps) => {
               }}
               justifyContent="center"
             >
-              {relatedArticles.map((category: any) =>
+              {relatedArticles.filteredArticles.map((category: any) =>
                 category.articles.map((article: any) => (
                   <MediaCard
                     key={article.article.id}
